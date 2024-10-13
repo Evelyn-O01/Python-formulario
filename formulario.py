@@ -1,22 +1,21 @@
 import tkinter as tk 
 from tkinter import Radiobutton, messagebox
 import re
-import mysql.connector as mysql
+import mysql.connector 
 
 def insertarRegistros (nombre, apellidos, telefono, estatura, edad, genero):
     try:
         conexion = mysql.connector.connect (
             host = "localhost",
-            #port = "3306"
+            port = "3306",
             user = "root",
-            pasword = "cajed",
-            database = "formulario",
-        )
+            password = "cajed",
+            database = "formulario" )
         cursor = conexion.cursor()
         
-        query = "INSERT INTO registros (nombre, apellidos, telefono, estatura, edad, genero) VALUES ()"
-        valores = (nombre, apellidos, telefono, estatura, edad, genero )
-        cursor.execute (query, valores)
+        query = "insert into tabla (nombre, apellidos, telefono, estatura, edad, genero) values (%s, %s, %s, %s, %s, %s)"
+        values = (nombre, apellidos, telefono, estatura, edad, genero )
+        cursor.execute (query, values)
         conexion.commit()
         cursor.close()
         conexion.close()
@@ -28,8 +27,8 @@ def insertarRegistros (nombre, apellidos, telefono, estatura, edad, genero):
 def save():
     nombre = tbNombre.get()
     apellidos = tbApellidos.get()
-    estatura = tbEstatura.get()
     telefono = tbTelefono.get()
+    estatura = tbEstatura.get()
     edad = tbEdad.get()
     genero = ""
     if varGenero.get() ==1:
@@ -37,6 +36,7 @@ def save():
     elif varGenero.get() ==2:
         genero = "Femenino"
     if (Enterovalido(edad) and Decimalvalido(estatura) and Telefonovalido(telefono) and Textovalido (apellidos) ):
+      insertarRegistros (nombre, apellidos, telefono, estatura, edad, genero)
       data = "Nombres: " + nombre + "\nApellidos: " + apellidos + "\nEstatura: " + estatura + "\nTelefono: " + telefono + "\nEdad: " + edad + "\nGenero: " + genero
       with open ("302024Data.txt", "a") as file: 
          file.write(data + "\n\n")
