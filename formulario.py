@@ -9,7 +9,7 @@ def insertarRegistros (nombre, apellidos, telefono, estatura, edad, genero):
             host = "localhost",
             port = "3306",
             user = "root",
-            password = "cajed",
+            password = "",
             database = "formulario" )
         cursor = conexion.cursor()
         
